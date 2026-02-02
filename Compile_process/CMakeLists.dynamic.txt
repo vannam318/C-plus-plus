@@ -1,0 +1,18 @@
+if(NOT CP_SOURCES)
+    message(STATUS "Compile_process (shared): no .cpp sources found in ${CMAKE_CURRENT_SOURCE_DIR}")
+else()
+    add_library(compile_process SHARED ${CP_SOURCES})
+    set_target_properties(compile_process PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    if(WIN32)
+        set_target_properties(compile_process PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    endif()
+    target_include_directories(compile_process PUBLIC
+        ${CMAKE_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+    )
+    if(MSVC)
+        target_compile_options(compile_process PRIVATE /W4 /permissive-)
+    else()
+        target_compile_options(compile_process PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+endif()

@@ -1,0 +1,15 @@
+option(BUILD_COMPILE_PROCESS_SHARED "Build compile_process as shared library" OFF)
+
+file(GLOB CP_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+)
+
+if(NOT CP_SOURCES)
+    message(STATUS "Compile_process: no .cpp sources found in ${CMAKE_CURRENT_SOURCE_DIR}")
+else()
+    if(BUILD_COMPILE_PROCESS_SHARED)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.dynamic.txt)
+    else()
+        include(${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.static.txt)
+    endif()
+endif()
